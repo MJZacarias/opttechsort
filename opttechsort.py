@@ -180,8 +180,8 @@ def decimal_to_byte(decimal: int) -> bytes:
     return int(decimal).to_bytes(1,byteorder="little")
 
 # Make sure arguments are in the following format
-# EXAMPLE 1: SORT(61,2,C,A)
-# EXAMPLE 2: SORT(61,2,C,A,1,23,C,A)
+# EXAMPLE 1: /s(61,2,C,A)
+# EXAMPLE 2: /s(61,2,C,A,1,23,C,A)
 # OUTPUT: [{"position": ?, "length": ?, "type_cast": ?, "order": ?}, {???}, {???}]
 def validate_sort_arguments(*args) -> list[dict]:
     if not(len(args)%4 == 0):
@@ -229,9 +229,9 @@ def test_sort():
     print("eof", eof_tracker)
     print("Done...")
 
-def regex_args(string: str = "SORT(4,1,N,D,5,1,N,A) filetype(gp,(63,63),(255,255,0,254))"):
+def regex_args(string: str = "/s(4,1,N,D,5,1,N,A) filetype(gp,(63,63),(255,255,0,254))"):
     #print("string:", string)
-    sort_args = re.search(r"SORT\(([^\)]*)\)", string).group(1).split(',')
+    sort_args = re.search(r"/s\(([^\)]*)\)", string).group(1).split(',')
     #print("sort_args:", sort_args)
     try:
         filetype_eor_args = re.search(r"filetype\(gp,\((.*)\),\(.*\)\)", string).group(1).split(',')
@@ -245,7 +245,7 @@ def regex_args(string: str = "SORT(4,1,N,D,5,1,N,A) filetype(gp,(63,63),(255,255
 
 def command():
     if len(sys.argv) < 4:
-        print('EXAMPLE: py opttech.py unsorted.txt output.txt "SORT(4,1,N,D,5,1,N,D) filetype(gp,(63,63),(255,255,0,254))"')
+        print('EXAMPLE: py opttechsort.py unsorted.txt output.txt "/s(4,1,N,D,5,1,N,D) filetype(gp,(63,63),(255,255,0,254))"')
         return
     fn_in = sys.argv[1]
     fn_out = sys.argv[2]
